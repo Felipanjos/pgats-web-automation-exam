@@ -25,10 +25,22 @@ describe('Lista de Exercícios do Automation Exercise', () => {
     cy.deleteAccountAndAssertConfirmation();
   });
 
-  it.only('Test Case 3: Login User with incorrect email and password', () => {
+  it('Test Case 3: Login User with incorrect email and password', () => {
     cy.assertHomePageVisibility();
     cy.navigateToSignUpLogin();
     cy.fillLoginFormWithCreatedUserAndSubmit();
     cy.assertLoginErrorMessage();
+  });
+
+  it('Test Case 4: Logout User', () => {
+    cy.createUserAPIForSetupNeededScenarios(randomUser);
+
+    cy.assertHomePageVisibility();
+    cy.navigateToSignUpLogin();
+    cy.fillLoginFormWithCreatedUserAndSubmit();
+    cy.assertLoggedInAsCreatedUser();
+    cy.logoutUserAndAssertLoginPage();
+
+    cy.deleteUserAPIForTeardownNeededScenarios();
   });
 });

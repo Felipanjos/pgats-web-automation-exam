@@ -58,6 +58,11 @@ Cypress.Commands.addAll({
     cy.contains('p', 'Your email or password is incorrect!').should('be.visible');
   },
 
+  logoutUserAndAssertLoginPage() {
+    cy.contains('a', 'Logout').click();
+    cy.contains('h2', 'Login to your account').should('be.visible');
+  },
+
   fillLoginFormWithCreatedUserAndSubmit() {
     cy.get('input[data-qa="login-email"]').type(createdUser.email);
     cy.get('input[data-qa="login-password"]').type(createdUser.password);
@@ -100,7 +105,22 @@ Cypress.Commands.addAll({
       },
     }).then((response) => {
       expect(response.status).to.eq(200);
-      console.log(response.body);
     });
   },
+
+  deleteUserAPIForTeardownNeededScenarios() {
+    cy.request({
+        method: 'DELETE',
+        url: 'https://automationexercise.com/api/deleteAccount',
+        body: {
+          email: createdUser.email,
+          password: createdUser.password
+        },
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+    });
+  }
 });
