@@ -12,11 +12,13 @@ Cypress.Commands.addAll({
     cy.contains('h2', 'Login to your account').should('be.visible');
   },
 
-  fillSignUpFormAndSubmit(userData) {
-    cy.get('input[data-qa="signup-name"]').type(userData.name);
+  fillNewUserSignUpFormAndSubmit(userData) {
+    cy.get('input[data-qa="signup-name"]').type(userData.username);
     cy.get('input[data-qa="signup-email"]').type(userData.email);
     cy.get('button[data-qa="signup-button"]').click();
+  },
 
+  fillEnterAccountInformationFormAndSubmit(userData) {
     cy.contains('h2', 'Enter Account Information').should('be.visible');
 
     if (userData.gender === 'male') cy.get('input[id="id_gender1"]').check();
@@ -75,7 +77,7 @@ Cypress.Commands.addAll({
     cy.get('a[data-qa="continue-button"]').click();
   },
 
-  createUserAPIForSetupNeededScenarios(randomUser) {
+  createUserWithSetCredentialsAndRandomInformationAPI (randomUser) {
     const requestBody = {
       name: createdUser.username,
       email: createdUser.email,

@@ -1,5 +1,6 @@
 describe('Lista de Exercícios do Automation Exercise', () => {
   let randomUser = null;
+  const createdUser = require('../fixtures/createdUser.json');
 
   beforeEach(() => {
     const { generateUserData } = require('../fixtures/userData.js');
@@ -10,13 +11,14 @@ describe('Lista de Exercícios do Automation Exercise', () => {
   it('Test Case 1: Register User', () => {
     cy.assertHomePageVisibility();
     cy.navigateToSignUpLogin();
-    cy.fillSignUpFormAndSubmit(randomUser);
+    cy.fillNewUserSignUpFormAndSubmit(randomUser);
+    cy.fillEnterAccountInformationFormAndSubmit(randomUser)
     cy.assertLoggedInAs(randomUser.firstName, randomUser.lastName);
     cy.deleteAccountAndAssertConfirmation();
   });
 
   it('Test Case 2: Login User', () => {
-    cy.createUserAPIForSetupNeededScenarios(randomUser);
+    cy.createUserWithSetCredentialsAndRandomInformationAPI(randomUser);
 
     cy.assertHomePageVisibility();
     cy.navigateToSignUpLogin();
@@ -33,7 +35,7 @@ describe('Lista de Exercícios do Automation Exercise', () => {
   });
 
   it('Test Case 4: Logout User', () => {
-    cy.createUserAPIForSetupNeededScenarios(randomUser);
+    cy.createUserWithSetCredentialsAndRandomInformationAPI(randomUser);
 
     cy.assertHomePageVisibility();
     cy.navigateToSignUpLogin();
@@ -42,5 +44,15 @@ describe('Lista de Exercícios do Automation Exercise', () => {
     cy.logoutUserAndAssertLoginPage();
 
     cy.deleteUserAPIForTeardownNeededScenarios();
+  });
+
+  it.only('Test Case 5: Register User with existing email', () => {
+    cy.createUserWithSetCredentialsAndRandomInformationAPI(randomUser);
+
+    cy.assertHomePageVisibility();
+    cy.navigateToSignUpLogin();
+    cy.fillNewUserSignUpFormAndSubmit(createdUser);
+
+    cy.contains('p', 'Email Address already exist!').should('be.visible');
   });
 });
