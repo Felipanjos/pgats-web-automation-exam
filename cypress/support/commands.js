@@ -77,6 +77,23 @@ Cypress.Commands.addAll({
     cy.get('a[data-qa="continue-button"]').click();
   },
 
+  accessContactPageSubmitAndAssertThenGoBackToHomePage() {
+    cy.contains('a', 'Contact us').click();
+
+    cy.contains('h2', 'Get In Touch').should('be.visible');
+    cy.get('input[name="name"]').type('John Doe');
+    cy.get('input[name="email"]').type('john.doe@example.com');
+    cy.get('input[name="subject"]').type('Inquiry about services');
+    cy.get('textarea[name="message"]').type('Hello, I would like to inquire about your services.');
+    
+    cy.get('input[name="upload_file"]').selectFile(__dirname + '/../fixtures/pdf.pdf');
+
+    cy.get('input[data-qa="submit-button"]').click();
+
+    cy.contains('div', 'Success! Your details have been submitted successfully.').should('be.visible');
+    cy.contains('a', 'Home').click();
+  },
+
   createUserWithSetCredentialsAndRandomInformationAPI (randomUser) {
     const requestBody = {
       name: createdUser.username,

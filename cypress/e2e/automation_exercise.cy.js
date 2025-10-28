@@ -46,7 +46,7 @@ describe('Lista de Exercícios do Automation Exercise', () => {
     cy.deleteUserAPIForTeardownNeededScenarios();
   });
 
-  it.only('Test Case 5: Register User with existing email', () => {
+  it('Test Case 5: Register User with existing email', () => {
     cy.createUserWithSetCredentialsAndRandomInformationAPI(randomUser);
 
     cy.assertHomePageVisibility();
@@ -54,5 +54,11 @@ describe('Lista de Exercícios do Automation Exercise', () => {
     cy.fillNewUserSignUpFormAndSubmit(createdUser);
 
     cy.contains('p', 'Email Address already exist!').should('be.visible');
+  });
+
+  it.only('Test Case 6: Contact Us Form', () => {
+    cy.assertHomePageVisibility();
+    cy.accessContactPageSubmitAndAssertThenGoBackToHomePage();
+    cy.assertHomePageVisibility();
   });
 });
