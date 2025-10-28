@@ -13,7 +13,7 @@ Cypress.Commands.addAll({
   },
 
   fillNewUserSignUpFormAndSubmit(userData) {
-    cy.get('input[data-qa="signup-name"]').type(userData.username);
+    cy.get('input[data-qa="signup-name"]').type(userData.name);
     cy.get('input[data-qa="signup-email"]').type(userData.email);
     cy.get('button[data-qa="signup-button"]').click();
   },
@@ -53,7 +53,7 @@ Cypress.Commands.addAll({
   },
 
   assertLoggedInAsCreatedUser() {
-    cy.contains('a', `Logged in as ${createdUser.username}`).should('be.visible');
+    cy.contains('a', `Logged in as ${createdUser.name}`).should('be.visible');
   },
 
   assertLoginErrorMessage() {
@@ -127,7 +127,7 @@ Cypress.Commands.addAll({
 
   createUserWithSetCredentialsAndRandomInformationAPI (randomUser) {
     const requestBody = {
-      name: createdUser.username,
+      name: createdUser.name,
       email: createdUser.email,
       password: createdUser.password,
       title: randomUser.title,
