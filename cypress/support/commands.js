@@ -133,6 +133,31 @@ Cypress.Commands.addAll({
     cy.contains('div', 'You have been successfully subscribed!').should('be.visible');
   },
 
+  addToCartAndCheckout(userData) {
+    cy.contains('Add to cart').first().click();
+    cy.contains('a', 'Cart').click();
+
+    cy.get('#cart_info').should('be.visible');
+    cy.contains('a', 'Proceed To Checkout').click();
+
+    cy.get('h2').contains('Address Details').should('be.visible');
+    cy.get('h2').contains('Review Your Order').should('be.visible');
+
+    cy.get('textarea[name="message"]').type('Please deliver between 9 AM to 5 PM.');
+
+    cy.contains('a', 'Place Order').click();
+
+    cy.get('input[name="name_on_card"]').type(`${userData.firstName} ${userData.lastName}`);
+    cy.get('input[name="card_number"]').type('4111111111111111');
+    cy.get('input[name="cvc"]').type('123');
+    cy.get('input[name="expiry_month"]').type('12');
+    cy.get('input[name="expiry_year"]').type('2025');
+
+    cy.get('button#submit').click();
+
+    cy.contains('h2', 'Order Placed!').should('be.visible');
+  },
+
   createUserWithSetCredentialsAndRandomInformationAPI (randomUser) {
     const requestBody = {
       name: createdUser.name,
