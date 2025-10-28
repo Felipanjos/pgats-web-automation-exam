@@ -71,12 +71,6 @@ describe('Lista de Exercícios do Automation Exercise', () => {
   it.only('Test Case 9: Search Product', () => {
     cy.assertHomePageVisibility();
     cy.navigateToProductsPageAndAssertVisibility();
-    cy.get('input[id="search_product"]').type('frozen top');
-    cy.get('button[id="submit_search"]').click();
-
-    cy.contains('h2', 'Searched Products').should('be.visible');
-
-    cy.get('div.product-image-wrapper').should('have.length', 1);
-    cy.get('div.product-image-wrapper').get('p').should('contain.text', 'Frozen Tops For Kids');
+    cy.searchForProductAndAssertResultsVisibility();
   });
 });

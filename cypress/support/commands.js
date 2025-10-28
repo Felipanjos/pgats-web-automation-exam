@@ -78,6 +78,17 @@ Cypress.Commands.addAll({
     cy.get('div.features_items').should('be.visible');
   },
 
+  searchForProductAndAssertResultsVisibility() {
+    cy.get('input[id="search_product"]').type('frozen top');
+    cy.get('button[id="submit_search"]').click();
+
+    cy.contains('h2', 'Searched Products').should('be.visible');
+
+    cy.get('div.product-image-wrapper').should('have.length', 1);
+    cy.get('div.product-image-wrapper').get('p').should('contain.text', 'Frozen Tops For Kids');
+  },
+
+
   productsPageAssertDetailsVisibility() {
     cy.get('div.product-image-wrapper').first().contains('a', 'View Product').click();
 
