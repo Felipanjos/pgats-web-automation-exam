@@ -73,4 +73,9 @@ describe('Lista de Exercícios do Automation Exercise', () => {
     cy.navigateToProductsPageAndAssertVisibility();
     cy.searchForProductAndAssertResultsVisibility();
   });
+
+  it.only('Test Case 10: Verify Subscription in home page', () => {
+    cy.assertHomePageVisibility();
+    cy.scrollToFooterAndSubscribe();
+  });
 });

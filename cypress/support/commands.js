@@ -125,6 +125,14 @@ Cypress.Commands.addAll({
     cy.contains('a', 'Home').click();
   },
 
+  scrollToFooterAndSubscribe() {
+    cy.get('#footer').scrollIntoView();
+    cy.get('#susbscribe_email').type('somecoolmailtosubscribe@test.com');
+    cy.get('#subscribe').click();
+
+    cy.contains('div', 'You have been successfully subscribed!').should('be.visible');
+  },
+
   createUserWithSetCredentialsAndRandomInformationAPI (randomUser) {
     const requestBody = {
       name: createdUser.name,
