@@ -13,7 +13,7 @@ Cypress.Commands.addAll({
   },
 
   fillNewUserSignUpFormAndSubmit(userData) {
-    cy.get('input[data-qa="signup-name"]').type(userData.username);
+    cy.get('input[data-qa="signup-name"]').type(userData.name);
     cy.get('input[data-qa="signup-email"]').type(userData.email);
     cy.get('button[data-qa="signup-button"]').click();
   },
@@ -53,7 +53,7 @@ Cypress.Commands.addAll({
   },
 
   assertLoggedInAsCreatedUser() {
-    cy.contains('a', `Logged in as ${createdUser.username}`).should('be.visible');
+    cy.contains('a', `Logged in as ${createdUser.name}`).should('be.visible');
   },
 
   assertLoginErrorMessage() {
@@ -71,15 +71,63 @@ Cypress.Commands.addAll({
     cy.get('button[data-qa="login-button"]').click();
   },
 
+  navigateToProductsPageAndAssertVisibility() {
+    cy.contains('a', 'Products').click();
+    cy.contains('h2', 'All Products').should('be.visible');
+
+    cy.get('div.features_items').should('be.visible');
+  },
+
+  searchForProductAndAssertResultsVisibility() {
+    cy.get('input[id="search_product"]').type('frozen top');
+    cy.get('button[id="submit_search"]').click();
+
+    cy.contains('h2', 'Searched Products').should('be.visible');
+
+    cy.get('div.product-image-wrapper').should('have.length', 1);
+    cy.get('div.product-image-wrapper').get('p').should('contain.text', 'Frozen Tops For Kids');
+  },
+
+
+  productsPageAssertDetailsVisibility() {
+    cy.get('div.product-image-wrapper').first().contains('a', 'View Product').click();
+
+    cy.url().should('include', '/product_details/1');
+    cy.contains('h2', 'Blue Top').should('be.visible');
+    cy.contains('span', 'Rs. 500').should('be.visible');
+
+    cy.contains('p', 'Category: Women > Tops').should('be.visible');
+    cy.contains('p', 'Availability: In Stock').should('be.visible');
+    cy.contains('p', 'Condition: New').should('be.visible');
+    cy.contains('p', 'Brand: Polo').should('be.visible');
+  },
+
   deleteAccountAndAssertConfirmation() {
     cy.contains('a', 'Delete Account').click();
     cy.contains('h2', 'Account Deleted!').should('be.visible');
     cy.get('a[data-qa="continue-button"]').click();
   },
 
+  accessContactPageSubmitAndAssertThenGoBackToHomePage() {
+    cy.contains('a', 'Contact us').click();
+
+    cy.contains('h2', 'Get In Touch').should('be.visible');
+    cy.get('input[name="name"]').type('John Doe');
+    cy.get('input[name="email"]').type('john.doe@example.com');
+    cy.get('input[name="subject"]').type('Inquiry about services');
+    cy.get('textarea[name="message"]').type('Hello, I would like to inquire about your services.');
+    
+    cy.get('input[name="upload_file"]').selectFile(__dirname + '/../fixtures/pdf.pdf');
+
+    cy.get('input[data-qa="submit-button"]').click();
+
+    cy.contains('div', 'Success! Your details have been submitted successfully.').should('be.visible');
+    cy.contains('a', 'Home').click();
+  },
+
   createUserWithSetCredentialsAndRandomInformationAPI (randomUser) {
     const requestBody = {
-      name: createdUser.username,
+      name: createdUser.name,
       email: createdUser.email,
       password: createdUser.password,
       title: randomUser.title,
