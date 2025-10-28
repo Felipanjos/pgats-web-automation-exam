@@ -73,4 +73,19 @@ describe('Lista de Exercícios do Automation Exercise', () => {
     cy.navigateToProductsPageAndAssertVisibility();
     cy.searchForProductAndAssertResultsVisibility();
   });
+
+  it('Test Case 10: Verify Subscription in home page', () => {
+    cy.assertHomePageVisibility();
+    cy.scrollToFooterAndSubscribe();
+  });
+
+  it('Test Case 15: Place Order: Register before Checkout', () => {
+    cy.assertHomePageVisibility();
+    cy.navigateToSignUpLogin();
+    cy.fillNewUserSignUpFormAndSubmit(randomUser);
+    cy.fillEnterAccountInformationFormAndSubmit(randomUser);
+    cy.assertLoggedInAs(randomUser.firstName, randomUser.lastName);
+    cy.addToCartAndCheckout(randomUser);
+    cy.deleteAccountAndAssertConfirmation();
+  });
 });
