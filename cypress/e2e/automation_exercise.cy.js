@@ -79,7 +79,7 @@ describe('Lista de Exercícios do Automation Exercise', () => {
     cy.scrollToFooterAndSubscribe();
   });
 
-  it.only('Test Case 15: Place Order: Register before Checkout', () => {
+  it('Test Case 15: Place Order: Register before Checkout', () => {
     cy.assertHomePageVisibility();
     cy.navigateToSignUpLogin();
     cy.fillNewUserSignUpFormAndSubmit(randomUser);
