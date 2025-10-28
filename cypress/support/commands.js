@@ -71,11 +71,14 @@ Cypress.Commands.addAll({
     cy.get('button[data-qa="login-button"]').click();
   },
 
-  navigateToProductsPageAndAssertDetailsVisibility() {
+  navigateToProductsPageAndAssertVisibility() {
     cy.contains('a', 'Products').click();
     cy.contains('h2', 'All Products').should('be.visible');
 
     cy.get('div.features_items').should('be.visible');
+  },
+
+  productsPageAssertDetailsVisibility() {
     cy.get('div.product-image-wrapper').first().contains('a', 'View Product').click();
 
     cy.url().should('include', '/product_details/1');
