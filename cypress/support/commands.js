@@ -12,11 +12,13 @@ Cypress.Commands.addAll({
     cy.contains('h2', 'Login to your account').should('be.visible');
   },
 
-  fillSignUpFormAndSubmit(userData) {
-    cy.get('input[data-qa="signup-name"]').type(userData.name);
+  fillNewUserSignUpFormAndSubmit(userData) {
+    cy.get('input[data-qa="signup-name"]').type(userData.username);
     cy.get('input[data-qa="signup-email"]').type(userData.email);
     cy.get('button[data-qa="signup-button"]').click();
+  },
 
+  fillEnterAccountInformationFormAndSubmit(userData) {
     cy.contains('h2', 'Enter Account Information').should('be.visible');
 
     if (userData.gender === 'male') cy.get('input[id="id_gender1"]').check();
@@ -58,6 +60,11 @@ Cypress.Commands.addAll({
     cy.contains('p', 'Your email or password is incorrect!').should('be.visible');
   },
 
+  logoutUserAndAssertLoginPage() {
+    cy.contains('a', 'Logout').click();
+    cy.contains('h2', 'Login to your account').should('be.visible');
+  },
+
   fillLoginFormWithCreatedUserAndSubmit() {
     cy.get('input[data-qa="login-email"]').type(createdUser.email);
     cy.get('input[data-qa="login-password"]').type(createdUser.password);
@@ -70,7 +77,7 @@ Cypress.Commands.addAll({
     cy.get('a[data-qa="continue-button"]').click();
   },
 
-  createUserAPIForSetupNeededScenarios(randomUser) {
+  createUserWithSetCredentialsAndRandomInformationAPI (randomUser) {
     const requestBody = {
       name: createdUser.username,
       email: createdUser.email,
@@ -100,7 +107,22 @@ Cypress.Commands.addAll({
       },
     }).then((response) => {
       expect(response.status).to.eq(200);
-      console.log(response.body);
     });
   },
+
+  deleteUserAPIForTeardownNeededScenarios() {
+    cy.request({
+        method: 'DELETE',
+        url: 'https://automationexercise.com/api/deleteAccount',
+        body: {
+          email: createdUser.email,
+          password: createdUser.password
+        },
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+    });
+  }
 });
