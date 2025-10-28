@@ -71,6 +71,23 @@ Cypress.Commands.addAll({
     cy.get('button[data-qa="login-button"]').click();
   },
 
+  navigateToProductsPageAndAssertDetailsVisibility() {
+    cy.contains('a', 'Products').click();
+    cy.contains('h2', 'All Products').should('be.visible');
+
+    cy.get('div.features_items').should('be.visible');
+    cy.get('div.product-image-wrapper').first().contains('a', 'View Product').click();
+
+    cy.url().should('include', '/product_details/1');
+    cy.contains('h2', 'Blue Top').should('be.visible');
+    cy.contains('span', 'Rs. 500').should('be.visible');
+
+    cy.contains('p', 'Category: Women > Tops').should('be.visible');
+    cy.contains('p', 'Availability: In Stock').should('be.visible');
+    cy.contains('p', 'Condition: New').should('be.visible');
+    cy.contains('p', 'Brand: Polo').should('be.visible');
+  },
+
   deleteAccountAndAssertConfirmation() {
     cy.contains('a', 'Delete Account').click();
     cy.contains('h2', 'Account Deleted!').should('be.visible');

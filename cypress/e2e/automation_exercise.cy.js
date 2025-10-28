@@ -56,9 +56,14 @@ describe('Lista de Exercícios do Automation Exercise', () => {
     cy.contains('p', 'Email Address already exist!').should('be.visible');
   });
 
-  it.only('Test Case 6: Contact Us Form', () => {
+  it('Test Case 6: Contact Us Form', () => {
     cy.assertHomePageVisibility();
     cy.accessContactPageSubmitAndAssertThenGoBackToHomePage();
     cy.assertHomePageVisibility();
+  });
+
+  it('Test Case 8: Verify All Products and product detail page', () => {
+    cy.assertHomePageVisibility();
+    cy.navigateToProductsPageAndAssertDetailsVisibility();
   });
 });
