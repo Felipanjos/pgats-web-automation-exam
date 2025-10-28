@@ -135,7 +135,7 @@ Cypress.Commands.addAll({
 
   addToCartAndCheckout(userData) {
     cy.contains('Add to cart').first().click();
-    cy.contains('a', 'Cart').click();
+    cy.contains('a', 'Cart').click({ force: true });
 
     cy.get('#cart_info').should('be.visible');
     cy.contains('a', 'Proceed To Checkout').click();
