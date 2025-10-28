@@ -68,7 +68,7 @@ describe('Lista de Exercícios do Automation Exercise', () => {
     cy.productsPageAssertDetailsVisibility();
   });
 
-  it.only('Test Case 9: Search Product', () => {
+  it('Test Case 9: Search Product', () => {
     cy.assertHomePageVisibility();
     cy.navigateToProductsPageAndAssertVisibility();
     cy.searchForProductAndAssertResultsVisibility();
